@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!-- 顶部带圆角 白色背景 灰色边框 无下边框 长方体 -->  
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">  
+    <item>  
+        <shape>  
+            <solid android:color="#BFE3FE" />  
+            <corners android:topLeftRadius="8dp" android:topRightRadius="8dp"  
+                android:bottomRightRadius="0.1dp" android:bottomLeftRadius="0.1dp" />  
+            <stroke android:width="0.5dp" android:color="#0D0D0D" />  
+        </shape>  
+    </item>  
+    <item android:top="1dp" android:left="1dp" android:right="1dp">  
+        <shape>  
+            <solid android:color="#BFE3FE" />  
+            <corners android:topLeftRadius="8dp" android:topRightRadius="8dp"  
+                android:bottomRightRadius="0.1dp" android:bottomLeftRadius="0.1dp" />  
+            <stroke android:width="0.5dp" android:color="#0D0D0D" />  
+        </shape>  
+    </item>  
+    
+</layer-list>  

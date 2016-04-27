@@ -1,0 +1,112 @@
+package com.example.tools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.UUID;
+
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+public class BlueToothConnectThread extends Thread {
+
+	private BluetoothSocket socket;
+	private BluetoothDevice device;
+	private BluetoothAdapter mBluetoothAdapter;
+	
+	//客户端UUID
+	private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	
+	private InputStream inStream;
+	private OutputStream outStream;
+	
+	
+
+	public BlueToothConnectThread(BluetoothDevice mdevice,BluetoothAdapter adapter) {
+		this.device = mdevice;
+		this.mBluetoothAdapter = adapter;
+		BluetoothSocket tmp = null;
+		try {
+			tmp = mdevice.createRfcommSocketToServiceRecord(MY_UUID);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
+	public void run(){
+		mBluetoothAdapter.cancelDiscovery();//取消设备查找
+		//socket通信
+		try {
+			socket.connect();
+		} catch (Exception e1) {
+			// TODO: handle exception
+			try {
+				socket.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+//		    connetionFailed();  //连接失败  
+			return;
+		}
+		//此处可以新建一个数据交换线程，将socket传进去 	
+	}
+	
+    public void cancel() {  
+        try {  
+            socket.close();  
+        } catch (IOException e) {  
+            Log.e("app", "close() of connect  socket failed", e);  
+        }  
+    }  
+    //获得输入输出流
+    public void getOutInStream(){
+    	try {
+			inStream = socket.getInputStream();
+			outStream = socket.getOutputStream();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			 Log.e("app", "temp sockets not created", e); 
+		}
+    }
+    
+    public String runOutIn(){
+    	   byte[] buff = new byte[1024];  
+           int len=0;  
+           String s;
+         //读数据需不断监听，写不需要  
+           while(true||len<20){
+        	   try{
+        		   //read方法获得的是整数，返回读取的字节数
+        		   len=inStream.read(buff);
+        		    s = buff.toString();
+        	   }catch(IOException e){
+        		   e.printStackTrace();
+        	   }
+           }
+         
+           return s;
+    }
+    public void write(byte[] buffer) {  
+        try {  
+            outStream.write(buffer);  
+
+            // Share the sent message back to the UI Activity  
+        } catch (IOException e) {  
+            Log.e("app", "Exception during write", e);  
+        }  
+    } 
+    
+    public void cancelOutIn() {  
+        try {  
+            socket.close();  
+        } catch (IOException e) {  
+            Log.e("app", "close() of connect socket failed", e);  
+        }  
+    }  
+}

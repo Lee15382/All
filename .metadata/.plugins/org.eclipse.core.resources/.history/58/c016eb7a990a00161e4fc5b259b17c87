@@ -1,0 +1,20 @@
+package com.example.bluetoothbroadcast;
+
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+public class DeviceReceiver extends BroadcastReceiver {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		// TODO Auto-generated method stub
+		String action = intent.getAction();
+		if(BluetoothDevice.ACTION_FOUND.equals(action)){
+			BluetoothDevice btd=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);  
+			
+		}
+	}
+
+}

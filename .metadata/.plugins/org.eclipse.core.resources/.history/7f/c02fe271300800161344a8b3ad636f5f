@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/title"
+            layout="@layout/title" />
+
+        <LinearLayout
+            android:id="@+id/weather_share_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <include
+                android:id="@+id/weather_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/weather_item_first" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="165.0dip"
+                    android:overScrollMode="never"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip" />
+
+                <com.way.indicator.CirclePageIndicator
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/indicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10.0dip"
+                    android:paddingTop="10.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="#80C8FE"
+        android:gravity="center_vertical"
+        android:text="App"
+        android:textColor="#FEFEFE" />
+       
+    <Button 
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80C8FE"
+        android:text="删除记录"
+        android:textColor="#FEFEFE"
+        />
+      <Button 
+        android:id="@+id/export"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+         android:background="#80C8FE"
+         android:text="导出"
+         android:textColor="#FEFEFE"
+        />
+        <Button 
+        android:id="@+id/set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#80C8FE"
+        android:text="设置"
+         android:textColor="#FEFEFE"
+        />
+    
+
+</LinearLayout>

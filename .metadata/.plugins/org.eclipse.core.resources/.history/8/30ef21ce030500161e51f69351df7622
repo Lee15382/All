@@ -1,0 +1,144 @@
+package com.example.bluetooth;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+public class BlueToothActivity extends Activity implements OnClickListener {
+
+	private Button button;
+	private ListView deviceListview;
+	private ArrayAdapter<String> adapter;
+	private List<String> devicelist = new ArrayList<String>();
+	private boolean hasregister = false;
+	private DeviceReceiver deviceReceiver;
+	private BluetoothAdapter blueadapter;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_blue_tooth);
+		setView();
+	}
+
+	@Override
+	protected void onStart() {
+		if (!hasregister) {
+			hasregister = true;
+			IntentFilter filterStart = new IntentFilter(
+					BluetoothDevice.ACTION_FOUND);
+			IntentFilter filterEnd = new IntentFilter(
+					BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+			registerReceiver(deviceReceiver, filterStart);
+			registerReceiver(deviceReceiver, filterEnd);
+		}
+		super.onStart();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (blueadapter != null && blueadapter.isDiscovering()) {
+			blueadapter.cancelDiscovery();
+		}
+		if (hasregister) {
+			hasregister = false;
+			unregisterReceiver(deviceReceiver);
+		}
+		super.onDestroy();
+	}
+
+	private void setView() {
+		button = (Button) findViewById(R.id.button1);
+		button.setOnClickListener(this);
+		deviceListview = (ListView) findViewById(R.id.devicelist);
+		adapter = new ArrayAdapter<String>(BlueToothActivity.this,
+				android.R.layout.simple_list_item_1);
+		deviceListview.setAdapter(adapter);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.button1:
+			blueadapter = BluetoothAdapter.getDefaultAdapter(); // 得到BluetoothAdapter对象判断是否有蓝牙
+			if (blueadapter != null) {
+				System.out.println("拥有蓝牙设备");
+				if (!blueadapter.isEnabled()) {
+					Intent intent = new Intent(
+							BluetoothAdapter.ACTION_REQUEST_ENABLE);// 使用Intent提示用户开启蓝牙
+					startActivity(intent);
+					blueadapter.enable();// 直接开启，不经过提示
+				}
+				if(blueadapter.isEnabled()){
+					Toast.makeText(this, "bluetooth started", Toast.LENGTH_SHORT).show();
+				}
+				Set<BluetoothDevice> devices = blueadapter.getBondedDevices(); // 得到已经获得配对的蓝牙适配器
+
+				if (blueadapter != null && blueadapter.isDiscovering()) {
+					devicelist.clear();
+					adapter.notifyDataSetChanged();
+				}
+				if (devices.size() > 0) {
+					// 使用迭代得到蓝牙适配器
+					for (Iterator iterator = devices.iterator(); iterator
+							.hasNext();) {
+						BluetoothDevice device = (BluetoothDevice) iterator
+								.next();
+						devicelist.add(device.getName() + '\n'
+								+ device.getAddress());
+						adapter.notifyDataSetChanged();
+					}
+				} else { // 否则不存在配对的蓝牙
+					devicelist.add("NO BULETOOTH");
+					adapter.notifyDataSetChanged();
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	private class DeviceReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (BluetoothDevice.ACTION_FOUND.equals(action)) { // 搜索到新设备
+				BluetoothDevice btd = intent
+						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				// 搜索没有配过对的蓝牙设备
+				if (btd.getBondState() != BluetoothDevice.BOND_BONDED) {
+					devicelist.add(btd.getName() + '\n' + btd.getAddress());
+					adapter.notifyDataSetChanged();
+				}
+			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+					.equals(action)) { // 搜索结束
+
+				if (deviceListview.getCount() == 0) {
+					devicelist.add("No can be matched to use bluetooth");
+					adapter.notifyDataSetChanged();
+				}
+
+			}
+		}
+	}
+}

@@ -1,0 +1,31 @@
+package Gson;
+
+import java.util.List;
+
+import Gson.WeaResult.Result;
+
+import com.google.gson.Gson;
+
+public class GUtil {
+	List<Result> ll ;
+	Gson gson = new Gson();
+	public GUtil(String jonString) {
+		Gson gson = new Gson();
+		WeaResult wea = gson.fromJson(jonString, WeaResult.class);
+		ll = wea.first_day_result;
+	}
+	
+	public List<Result> getInformation(){
+		getGson();
+		return ll ;
+		
+	}
+	
+	WeaResult re = new WeaResult();
+	public String getGson(){
+		re.first_day_result = ll.subList(0, 2);
+		String s1 = gson.toJson(re);
+		return s1;
+	}
+
+}

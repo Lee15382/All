@@ -1,0 +1,62 @@
+package com.example.tools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import android.bluetooth.BluetoothSocket;
+import android.util.Log;
+
+public class BlueToothIOStream extends Thread {
+	private InputStream inStream;
+	private OutputStream outStream;
+	private BluetoothSocket socket;
+	//构造器
+	public BlueToothIOStream(BluetoothSocket socket){
+		this.socket = socket;
+	}
+    //获得输入输出流
+    public void getIOStream(){
+    	
+    	try {
+			inStream = socket.getInputStream();
+			outStream = socket.getOutputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+			 Log.e("app", "temp sockets not created", e); 
+		}
+    }
+
+	public void run() {
+		byte[] buff = new byte[1024];
+		int len = 0;
+		String s;
+		// 读数据需不断监听，写不需要
+		getIOStream();
+		while (true || len < 20) {
+			try {
+				// read方法获得的是整数，返回读取的字节数
+				len = inStream.read(buff);
+				s = buff.toString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	   public void write(byte[] buffer) {  
+	        try {  
+	            outStream.write(buffer);  
+
+	            // Share the sent message back to the UI Activity  
+	        } catch (IOException e) {  
+	            Log.e("app", "Exception during write", e);  
+	        }  
+	    } 
+	    public void cancelOutIn() {  
+	        try {  
+	            socket.close();  
+	        } catch (IOException e) {  
+	            Log.e("app", "close() of connect socket failed", e);  
+	        }  
+	    }  
+}

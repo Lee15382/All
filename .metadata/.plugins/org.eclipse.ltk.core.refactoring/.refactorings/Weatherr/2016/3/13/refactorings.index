@@ -1,0 +1,39 @@
+1458625044485	Delete element
+1458625072377	Delete element
+1458625169354	Delete element
+1458625180874	Delete element
+1458625555904	Rename package 'activity'
+1458625566146	Rename package 'db'
+1458625575891	Rename package 'model'
+1458625585762	Rename package 'receiver'
+1458625595376	Rename package 'service'
+1458625607114	Rename package 'util'
+1458626915268	Delete element
+1458630672355	Delete element
+1458630676223	Delete element
+1458630678465	Delete element
+1458630680360	Delete element
+1458630682425	Delete element
+1458630684641	Delete element
+1458630686593	Delete element
+1458637170082	Move compilation unit
+1458637176319	Move compilation unit
+1458637558324	Rename type 'main'
+1458697370097	Copy compilation unit
+1458697378608	Copy compilation unit
+1458713996869	Delete element
+1458713999107	Delete element
+1458714097217	Copy compilation unit
+1458714103309	Copy compilation unit
+1458714811665	Delete element
+1458716530141	Rename type 'City'
+1458719037299	Delete element
+1458719301482	Delete element
+1458801347491	Delete element
+1458801352298	Delete element
+1458801354923	Delete element
+1458808147549	Copy file
+1458872290513	Extract method 'getweather'
+1458875799712	Rename package 'GSON'
+1458875857527	Rename type 'weather'
+1458876988280	Rename type 'GHttpdown'

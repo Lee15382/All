@@ -1,0 +1,16 @@
+package utils;
+
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+
+public class Ok_Post {
+	private String address ;
+	private final OkHttpClient client = new OkHttpClient();
+	private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown; charset=utf-8");
+
+
+//	public void enqueue(){
+//		Request request = 
+//	}
+}
